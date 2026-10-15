@@ -1,0 +1,111 @@
+{
+  "dataset": {
+    "n_raw": 7807,
+    "n_missing_smiles": 0,
+    "n_unparseable_smiles": 2,
+    "n_duplicate_conflicting_dropped": 0,
+    "n_duplicate_consistent_merged": 3,
+    "n_final": 7802,
+    "n_positive_BBB+": 4955,
+    "n_negative_BBB-": 2847
+  },
+  "features": {
+    "n_descriptors": 10,
+    "descriptor_names": [
+      "molecular_weight",
+      "logp",
+      "tpsa",
+      "hbd",
+      "hba",
+      "rotatable_bonds",
+      "num_rings",
+      "num_aromatic_rings",
+      "num_heteroatoms",
+      "fraction_csp3"
+    ],
+    "fingerprint": "Morgan/ECFP4-equivalent, radius=2, 2048 bits",
+    "n_features_total": 2058
+  },
+  "split": {
+    "method": "bemis_murcko_scaffold",
+    "n_train": 6241,
+    "n_valid": 780,
+    "n_test": 781
+  },
+  "models": {
+    "random_forest": {
+      "params": {
+        "n_estimators": 500,
+        "class_weight": "balanced",
+        "random_state": 42,
+        "n_jobs": -1
+      },
+      "train_seconds": 24.62,
+      "valid": {
+        "n": 780,
+        "roc_auc": 0.8815258439824528,
+        "pr_auc": 0.8229088166133562,
+        "f1": 0.6357039187227866,
+        "mcc": 0.4436604671903942
+      },
+      "test": {
+        "n": 781,
+        "roc_auc": 0.94231332454704,
+        "pr_auc": 0.9580528094502477,
+        "f1": 0.8630887185104053,
+        "mcc": 0.6744452187030882
+      }
+    },
+    "xgboost": {
+      "params": {
+        "n_estimators": 300,
+        "max_depth": 6,
+        "learning_rate": 0.1,
+        "subsample": 0.8,
+        "colsample_bytree": 0.8,
+        "eval_metric": "logloss",
+        "random_state": 42,
+        "n_jobs": -1
+      },
+      "train_seconds": 11.85,
+      "valid": {
+        "n": 780,
+        "roc_auc": 0.8557467098989129,
+        "pr_auc": 0.7669613241219656,
+        "f1": 0.6251768033946252,
+        "mcc": 0.42653419988288654
+      },
+      "test": {
+        "n": 781,
+        "roc_auc": 0.9329379501311288,
+        "pr_auc": 0.9461671983071014,
+        "f1": 0.8650371944739639,
+        "mcc": 0.6730543319412896
+      }
+    },
+    "svm": {
+      "params": {
+        "base_estimator": "LinearSVC",
+        "C": 1.0,
+        "class_weight": "balanced",
+        "random_state": 42,
+        "calibration_cv": 5
+      },
+      "train_seconds": 702.6,
+      "valid": {
+        "n": 780,
+        "roc_auc": 0.7627694068281519,
+        "pr_auc": 0.5780840011451099,
+        "f1": 0.5602923264311814,
+        "mcc": 0.3084506363030741
+      },
+      "test": {
+        "n": 781,
+        "roc_auc": 0.8699295765272842,
+        "pr_auc": 0.873473740978008,
+        "f1": 0.8180924287118977,
+        "mcc": 0.5378409928276677
+      }
+    }
+  }
+}

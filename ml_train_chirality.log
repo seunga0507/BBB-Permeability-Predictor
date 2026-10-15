@@ -1,0 +1,19 @@
+﻿Cleaning report: CleaningReport(n_raw=7807, n_missing_smiles=0, n_unparseable=2, n_duplicate_conflicting=0, n_duplicate_consistent_merged=3, n_final=7802)
+Feature matrix: (7802, 2058) (10 descriptors + 2048 fp bits)
+Scaffold split sizes: train=6241 valid=780 test=781
+[random_forest] training on scaffold split train set (n=6241)...
+[random_forest] done in 24.62s
+[random_forest] saved model to C:\Users\sb324\bbb-permeability-predictor\ml\artifacts\model_random_forest.joblib
+[xgboost] training on scaffold split train set (n=6241)...
+[xgboost] done in 11.85s
+[xgboost] saved model to C:\Users\sb324\bbb-permeability-predictor\ml\artifacts\model_xgboost.joblib
+[svm] training on scaffold split train set (n=6241)...
+[svm] done in 702.6s
+[svm] saved model to C:\Users\sb324\bbb-permeability-predictor\ml\artifacts\model_svm.joblib
+Saved metrics to C:\Users\sb324\bbb-permeability-predictor\ml\artifacts\metrics.json
+
+=== 동일 scaffold test set 기준 모델 비교 (test) ===
+model             ROC-AUC    PR-AUC        F1       MCC
+random_forest       0.942     0.958     0.863     0.674
+xgboost             0.933     0.946     0.865     0.673
+svm                 0.870     0.873     0.818     0.538

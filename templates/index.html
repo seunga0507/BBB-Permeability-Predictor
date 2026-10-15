@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BBB Permeability Predictor</title>
+<link rel="stylesheet" href="{{ static_url('style.css') }}">
+</head>
+<body>
+<header>
+  <h1>BBB Permeability Predictor</h1>
+  <p class="subtitle">구조 업로드 / <span class="subtitle-en">SMILES</span> 입력 <span class="flow-arrow">→</span> <span class="subtitle-en">Descriptor</span> 계산 <span class="flow-arrow">→</span> 모델별 <span class="subtitle-en">BBB</span> 예측</p>
+</header>
+
+<main>
+  <section class="upload-panel">
+    <form id="predict-form">
+      <div class="drop-card" id="dropzone">
+        <label for="file-input" class="drop-trigger">
+          <span class="drop-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="16 16 12 12 8 16"></polyline>
+              <line x1="12" y1="12" x2="12" y2="21"></line>
+              <path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"></path>
+            </svg>
+          </span>
+          <p class="drop-text" id="dropzone-text">파일을 끌어다 놓거나 <span class="drop-browse">찾아보기</span></p>
+          <p class="drop-sub" id="dropzone-sub">MOL, SDF 파일 · 최대 5MB</p>
+        </label>
+        <input type="file" id="file-input" name="file" accept=".mol,.sdf" hidden>
+
+        <div class="drop-divider"><span>또는</span></div>
+
+        <div class="smiles-input-wrap">
+          <textarea id="smiles-input" rows="2" placeholder=""></textarea>
+          <div class="smiles-placeholder" id="smiles-placeholder" aria-hidden="true">SMILES 또는 CAS 번호를 입력하세요 <span class="dash">—</span> 여러 화합물을 비교하려면 한 줄에 하나씩<br>예) CN1C=NC2=C1C(=O)N(C(=O)N2C)C 또는 58-08-2<span class="smiles-placeholder-sub"><br>SMILES 입력시 "따옴표"로 필수 Moiety 지정할 경우 해당구조를 포함하는 Training 화합물만 활용<br>예) FC(F)c1nnc(o1)-"c1cccnc1"</span></div>
+        </div>
+      </div>
+
+      <button type="submit" id="predict-btn">
+        <svg id="predict-btn-ring" class="predict-btn-ring" aria-hidden="true">
+          <defs>
+            <filter id="predict-btn-train2-blur" x="-50%" y="-50%" width="200%" height="200%">
+              <feGaussianBlur stdDeviation="2.2" />
+            </filter>
+          </defs>
+        </svg>
+        <span id="predict-btn-label">Predict</span>
+      </button>
+    </form>
+
+    <div id="status-msg"></div>
+  </section>
+
+  <section id="results"></section>
+</main>
+
+<div id="alert-overlay" class="alert-overlay" hidden>
+  <div class="alert-box" role="alertdialog" aria-modal="true">
+    <p id="alert-message"></p>
+    <button type="button" id="alert-ok">확인</button>
+  </div>
+</div>
+
+<div id="structure-overlay" class="alert-overlay" hidden>
+  <div class="structure-box" role="dialog" aria-modal="true">
+    <button type="button" class="structure-close" id="structure-close" aria-label="닫기">×</button>
+    <h3 id="structure-name"></h3>
+    <div class="structure-image-wrap">
+      <img id="structure-image" alt="화합물 구조">
+    </div>
+    <p id="structure-mw" class="structure-mw" hidden></p>
+    <p id="structure-error" class="structure-error" hidden></p>
+  </div>
+</div>
+
+<div id="global-pred-overlay" class="alert-overlay" hidden>
+  <div class="structure-box" role="dialog" aria-modal="true">
+    <button type="button" class="structure-close" id="global-pred-close" aria-label="닫기">×</button>
+    <h3>전체 6,241개 기준 예측</h3>
+    <p class="global-pred-subtitle">(필수 <span class="label-en">Moiety</span> 필터 제외)</p>
+    <table class="prediction-table">
+      <thead><tr><th>Model used</th><th>Prediction</th><th>Probability</th></tr></thead>
+      <tbody id="global-pred-body"></tbody>
+    </table>
+  </div>
+</div>
+
+<script src="{{ static_url('script.js') }}"></script>
+</body>
+</html>
